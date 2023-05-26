@@ -1,0 +1,103 @@
+{
+    "os": null,
+    "python": null,
+    "heartbeatAt": "2023-05-26T11:52:59.680827",
+    "startedAt": "2023-05-26T11:52:59.127275",
+    "docker": null,
+    "cuda": null,
+    "args": null,
+    "state": "running",
+    "git": {
+        "remote": "https://github.com/Scod3lla/zenml-ETE-pipeline.git",
+        "commit": "55143c5955705a2f2491304cf235cbe92e800825"
+    },
+    "email": "giovescodella@gmail.com",
+    "root": "/home/scodella/Desktop/zenml-ETE-pipeline",
+    "host": null,
+    "username": null,
+    "executable": "/home/scodella/miniconda3/envs/zenml/bin/python",
+    "cpu_count": 6,
+    "cpu_count_logical": 12,
+    "cpu_freq": {
+        "current": 3089.5501666666664,
+        "min": 2200.0,
+        "max": 3700.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 3274.602,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 3700.0,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 2200.0,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 2800.0,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 3700.0,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 3700.0,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 2200.0,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 2200.0,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 3682.486,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 3700.0,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 2200.0,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 3700.0,
+            "min": 2200.0,
+            "max": 3700.0
+        }
+    ],
+    "disk": {
+        "total": 449.0227394104004,
+        "used": 178.76898574829102
+    },
+    "gpu": "NVIDIA GeForce RTX 3070",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 3070",
+            "memory_total": 8589934592
+        }
+    ],
+    "memory": {
+        "total": 15.549129486083984
+    }
+}
