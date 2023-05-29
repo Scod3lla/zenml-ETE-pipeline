@@ -1,14 +1,14 @@
-import torch
-from torch import nn
-from torch.utils.data import DataLoader
-
 
 from zenml.pipelines import pipeline
-from zenml.steps import step, Output
+
+from zenml.config import DockerSettings
+from zenml.integrations.constants import WANDB, PYTORCH
+from zenml.pipelines import pipeline
+
+docker_settings = DockerSettings(required_integrations=[WANDB, PYTORCH])
 
 
-
-@pipeline
+@pipeline(enable_cache=False, settings={"docker": docker_settings})
 def pytorch_experiment_tracking_pipeline(
     load_data,
     load_model,

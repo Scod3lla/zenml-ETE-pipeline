@@ -19,6 +19,8 @@ print(f"Using {device} device")
 def train(dataloader, model, loss_fn, optimizer, global_step):
     """A function to train a model for one epoch."""
     size = len(dataloader.dataset)
+
+    mloss = 0 
     model.train()
     for batch, (X, y) in enumerate(dataloader):
         X, y = X.to(device), y.to(device)
@@ -34,12 +36,15 @@ def train(dataloader, model, loss_fn, optimizer, global_step):
         loss.backward()
         optimizer.step()
 
+        mloss+=loss.item()
+
         if batch % 100 == 0:
             loss, current = loss.item(), batch * len(X)
             print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
 
             # 🔥 W&B tracking
-            wandb.log({"Train Loss": loss}, step=global_step)
+    mloss /= len(dataloader)
+    wandb.log({"Train Loss": mloss}, step=global_step)
 
 def test(dataloader, model, loss_fn, global_step):
     """A function to test a model on the validation / test dataset."""
@@ -83,7 +88,7 @@ def train_test(
     test_acc = 0
     for t in range(epochs):
         print(f"Epoch {t+1}\n-------------------------------")
-        global_step = t * len(train_dataloader)
+        global_step = t
         train(train_dataloader, model, loss_fn, optimizer, global_step)
         test_acc = test(test_dataloader, model, loss_fn, global_step)
     print("Done!")
