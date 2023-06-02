@@ -4,9 +4,9 @@ from zenml.steps import step
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-class linearRegression(torch.nn.Module):
+class LinearRegression(torch.nn.Module):
     def __init__(self, inputSize, outputSize):
-        super(linearRegression, self).__init__()
+        super(LinearRegression, self).__init__()
         self.linear = torch.nn.Linear(inputSize, outputSize)
 
     def forward(self, x):
@@ -19,6 +19,6 @@ class linearRegression(torch.nn.Module):
 @step(enable_cache=False)
 def load_model(inputSize: int, outputSize: int) -> nn.Module:
     """A `step` to define a PyTorch model."""
-    model = linearRegression(inputSize, outputSize)
+    model = LinearRegression(inputSize, outputSize)
     print(model)
     return model
