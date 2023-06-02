@@ -1,5 +1,5 @@
 import torch
-from zenml.steps import step, Output
+from zenml.steps import step, Output, BaseParameters
 
 from torch.utils.data import DataLoader
 from torch import nn
@@ -10,7 +10,6 @@ import wandb
 from zenml.integrations.wandb.flavors.wandb_experiment_tracker_flavor import WandbExperimentTrackerSettings
 
 wandb_settings = WandbExperimentTrackerSettings(settings=wandb.Settings(magic=True), tags=["some_tag"])
-
 
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -68,6 +67,14 @@ def test(dataloader, model, loss_fn, global_step):
 
 # --------------------------------------------------------------------------------
 
+class TrainingParameters(BaseParameters):
+    '''Training parameters'''
+
+    learning_rate : float = None
+    epochs: int = None
+
+
+
 @step(enable_cache=False, experiment_tracker="wandb_tracker",
       settings={
         "experiment_tracker.wandb": wandb_settings
@@ -76,11 +83,12 @@ def test(dataloader, model, loss_fn, global_step):
 def train_test(
     model: nn.Module,
     train_dataloader: DataLoader, 
-    test_dataloader: DataLoader
+    test_dataloader: DataLoader,
+    params: TrainingParameters
 ) -> Output(trained_model=nn.Module, test_acc=float):
     """A `step` to train and evaluate a torch model on given dataloaders."""
-    lr = 1e-3
-    epochs = 10
+    lr = params.learning_rate
+    epochs = params.epochs
 
     model = model.to(device)
     loss_fn = nn.MSELoss()
@@ -88,7 +96,7 @@ def train_test(
     test_acc = 0
     for t in range(epochs):
         print(f"Epoch {t+1}\n-------------------------------")
-        global_step = t
+        global_step = t+1
         train(train_dataloader, model, loss_fn, optimizer, global_step)
         test_acc = test(test_dataloader, model, loss_fn, global_step)
     print("Done!")

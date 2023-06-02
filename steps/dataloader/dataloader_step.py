@@ -5,6 +5,15 @@ import torch
 from torch.utils.data.dataset import Dataset
 from torch.utils.data import DataLoader
 
+
+class DataLoadingParameters(BaseParameters):
+    '''Data loading parameters'''
+
+    data_path : str = ''
+    batch_size: int = 8
+
+
+
 class CustomDatasetFromCSV(Dataset):
     def __init__(self, csv_path):
         self.data = pd.read_csv(csv_path, header=None, delim_whitespace=True)
@@ -21,13 +30,6 @@ class CustomDatasetFromCSV(Dataset):
     
     def __getitem__ (self,idx):
         return self.x_train[idx], self.y_train[idx]
-
-
-class DataLoadingParameters(BaseParameters):
-    '''Data loading parameters'''
-
-    data_path : str = ''
-    batch_size: int = 8
 
 
 @step(enable_cache=False)
