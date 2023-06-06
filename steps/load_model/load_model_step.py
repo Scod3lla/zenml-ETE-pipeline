@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from zenml.steps import step
+from zenml import step
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 

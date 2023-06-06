@@ -1,5 +1,6 @@
 import torch
-from zenml.steps import step, Output, BaseParameters
+from zenml.steps import Output
+from zenml import step
 
 from torch.utils.data import DataLoader
 from torch import nn
@@ -67,11 +68,7 @@ def test(dataloader, model, loss_fn, global_step):
 
 # --------------------------------------------------------------------------------
 
-class TrainingParameters(BaseParameters):
-    '''Training parameters'''
 
-    learning_rate : float = None
-    epochs: int = None
 
 
 
@@ -84,16 +81,19 @@ def train_test(
     model: nn.Module,
     train_dataloader: DataLoader, 
     test_dataloader: DataLoader,
-    params: TrainingParameters
+    learning_rate : float,
+    epochs : int,
+    batch_size: int
 ) -> Output(trained_model=nn.Module, test_acc=float):
     """A `step` to train and evaluate a torch model on given dataloaders."""
-    lr = params.learning_rate
-    epochs = params.epochs
 
     model = model.to(device)
     loss_fn = nn.MSELoss()
-    optimizer = torch.optim.SGD(model.parameters(), lr=lr)
+    optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
     test_acc = 0
+
+    wandb.config.update({"lr": learning_rate, "epochs": epochs, 'batch_size': batch_size})
+
     for t in range(epochs):
         print(f"Epoch {t+1}\n-------------------------------")
         global_step = t+1

@@ -1,16 +1,12 @@
 import pandas as pd
 
-from zenml.steps import step, Output, BaseParameters
+from zenml.steps import Output
+from zenml import step
+
 import torch
 from torch.utils.data.dataset import Dataset
 from torch.utils.data import DataLoader
 
-
-class DataLoadingParameters(BaseParameters):
-    '''Data loading parameters'''
-
-    data_path : str = ''
-    batch_size: int = 8
 
 
 
@@ -33,17 +29,17 @@ class CustomDatasetFromCSV(Dataset):
 
 
 @step(enable_cache=False)
-def dataloader(params: DataLoadingParameters) -> Output(
+def dataloader(data_path: str, batch_size : int) -> Output(
     train_dataloader=DataLoader, test_dataloader=DataLoader, inputSize=int, outputSize=int
     ):
-    data = CustomDatasetFromCSV(params.data_path)
+    data = CustomDatasetFromCSV(data_path)
 
     train_size = int(0.8 * len(data))
     test_size = len(data) - train_size
     train_dataset, test_dataset = torch.utils.data.random_split(data, [train_size, test_size])
 
-    train_dataloader = DataLoader(train_dataset, batch_size=params.batch_size)
-    test_dataloader = DataLoader(test_dataset, batch_size=params.batch_size)
+    train_dataloader = DataLoader(train_dataset, batch_size=batch_size)
+    test_dataloader = DataLoader(test_dataset, batch_size=batch_size)
 
     x, _ = train_dataset[0]
     inputSize = x.shape[-1]
