@@ -11,16 +11,13 @@ def main(learning_rate, batch_size, epochs):
 
     # Initialize a pipeline run
 
-    pipeline = pytorch_experiment_tracking_pipeline.with_options(run_name = "exp_track_{date}_{time}")
+    pipeline = pytorch_experiment_tracking_pipeline.with_options(run_name = "D_{date}-T_{time}-"+f'EP_{epochs}-BS_{batch_size}')
 
     pipeline(data_path='./data/data.txt', batch_size = batch_size, 
                                                 learning_rate=learning_rate, epochs=epochs)
 
-
     # pytorch_experiment_tracking_pipeline(data_path='./data/data.txt', batch_size = batch_size, 
     #                                             learning_rate=learning_rate, epochs=epochs)
-
-
 
     return 0
 
